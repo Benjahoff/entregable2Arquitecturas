@@ -14,14 +14,25 @@ public class Carrera {
 	@Id
 	private int idCarrera;
 	@ManyToOne
-	@JoinColumn(name="idFacultad")
+	@JoinColumn(name = "idFacultad")
 	private Facultad facultad;
-	@Column 
+	@Column
 	private String nombreCarrera;
 	@OneToMany(mappedBy = "carrera")
 	private List<SituacionAcademica> estudiantes;
-	
+
 	public Carrera(Facultad facultad, String nombreCarrera) {
+		this.facultad = facultad;
+		this.nombreCarrera = nombreCarrera;
+	}
+
+	public Carrera() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Carrera(int idCarrera, Facultad facultad, String nombreCarrera) {
+		this.idCarrera = idCarrera;
 		this.facultad = facultad;
 		this.nombreCarrera = nombreCarrera;
 	}
@@ -29,21 +40,18 @@ public class Carrera {
 	public int getIdCarrera() {
 		return idCarrera;
 	}
-	
+
 	public Facultad getFacultad() {
 		return facultad;
 	}
-
 
 	public void setFacultad(Facultad facultad) {
 		this.facultad = facultad;
 	}
 
-
 	public String getNombreCarrera() {
 		return nombreCarrera;
 	}
-
 
 	public void setNombreCarrera(String nombreCarrera) {
 		this.nombreCarrera = nombreCarrera;

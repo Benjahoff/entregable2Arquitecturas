@@ -8,12 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
 @Entity
 public class Estudiante {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int nroEstudiante;
 	@Column
 	private String nombre;
@@ -24,10 +23,9 @@ public class Estudiante {
 	@Column
 	private String genero;
 	@ManyToOne
-	@JoinColumn(name="idCiudad")
+	@JoinColumn(name = "idCiudad")
 	Ciudad ciudad;
-	
-	
+
 	public Estudiante(String nombre, String apellido, Long dni, String genero) {
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -35,11 +33,14 @@ public class Estudiante {
 		this.genero = genero;
 	}
 
+	public Estudiante() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getNroEstudiante() {
 		return nroEstudiante;
 	}
-
-
 
 	public String getNombre() {
 		return nombre;
@@ -78,6 +79,5 @@ public class Estudiante {
 		return "Estudiante [nroEstudiante=" + nroEstudiante + ", nombre=" + nombre + ", apellido=" + apellido + ", dni="
 				+ dni + ", genero=" + genero + "]";
 	}
-	
-	
+
 }
