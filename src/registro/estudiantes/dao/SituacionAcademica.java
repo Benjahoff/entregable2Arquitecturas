@@ -1,32 +1,41 @@
-package dao;
+package registro.estudiantes.dao;
 
 import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 @Entity
 public class SituacionAcademica {
-	
+
+//	Me dice que todas las clases deben llevar un identificador, sino me tira error: CONSULTAR
+	@Id
+	private int id;
+
 	@OneToOne
-	@JoinColumn(name="nroEstudiante")
+	@JoinColumn(name = "nroEstudiante")
 	private Estudiante estudiante;
+
 	@ManyToOne
-	@JoinColumn(name="idCarrera")
+	@JoinColumn(name = "idCarrera")
 	private Carrera carrera;
+
 	@Column
 	private int antiguedad;
+
 	@Column
 	private boolean egresado;
+
 	@Column
 	private Date fechaInscripcion;
-	@Column (nullable = false)
+
+	@Column(nullable = true)
 	private Date fechaEgreso;
-	
-	
 
 	public SituacionAcademica(Estudiante estudiante, Carrera carrera, int antiguedad, boolean egresado,
 			Date fechaInscripcion, Date fechaEgreso) {
@@ -86,7 +95,4 @@ public class SituacionAcademica {
 		this.fechaEgreso = fechaEgreso;
 	}
 
-	
-
 }
-
