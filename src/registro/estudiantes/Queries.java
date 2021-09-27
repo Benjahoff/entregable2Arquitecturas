@@ -131,6 +131,8 @@ public class Queries {
 		}
 		return null;
 	}
+	
+	
 	//f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
 	public List<Carrera> getCarrerasConEstudiantesSortByCantidad(){
 		@SuppressWarnings("unchecked")
@@ -139,6 +141,19 @@ public class Queries {
 //				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s ").getResultList();
 
 		if(!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+	
+//	g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
+	
+	public List<Estudiante> getEstudiantesByCiudad(int idCiudad, int idCarrera){
+		@SuppressWarnings("unchecked")
+		List<Estudiante> retornedList = em.createQuery("SELECT e FROM Estudiante e JOIN e.carreras s WHERE s.carrera.idCarrera =: idCarrera AND  e.ciudad.idCiudad =: idCiudad")
+				.setParameter("idCiudad", idCiudad)
+				.setParameter("idCarrera", idCarrera).getResultList();
+		if (!retornedList.isEmpty()) {
 			return retornedList;
 		}
 		return null;

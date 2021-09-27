@@ -23,14 +23,14 @@ public class Main {
 //		queries.darAltaEstudiante("Lady", "Gaga", (long) 14235341, "Femenino", "Urdampilleta");
 //		queries.darAltaEstudiante("Vaca", "Lola", (long) 03034561, "Femenino", "Diareux");
 		
-//		List<Estudiante> retornedList = queries.getEstudiantesByGenero("hermafrodita");
-//		for (Estudiante estudiante : retornedList) {
-//			System.out.println(estudiante.toString());
-//		}
-		List<Carrera> retornedListCarrera = queries.getCarrerasConEstudiantesSortByCantidad();
-		for (Carrera carrera : retornedListCarrera) {
-			System.out.println(carrera.toString());
+		List<Estudiante> retornedList = queries.getEstudiantesByCiudad(5, 1);
+				for (Estudiante estudiante : retornedList) {
+			System.out.println(estudiante.toString());
 		}
+//		List<Carrera> retornedListCarrera = queries.getCarrerasConEstudiantesSortByCantidad();
+//		for (Carrera carrera : retornedListCarrera) {
+//			System.out.println(carrera.toString());
+//		}
 //		queries.matricularEstudiante(5,"Three-banded plover");
 		queries.closeConnection();
 	}

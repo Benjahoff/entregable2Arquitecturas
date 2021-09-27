@@ -1,5 +1,7 @@
 package registro.estudiantes.dao;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Estudiante {
@@ -25,7 +28,10 @@ public class Estudiante {
 	@ManyToOne
 	@JoinColumn(name = "idCiudad")
 	Ciudad ciudad;
-
+	
+	@OneToMany(mappedBy = "estudiante")
+	private List<SituacionAcademica> carreras;
+	
 	public Estudiante(String nombre, String apellido, Long dni, String genero) {
 		this.nombre = nombre;
 		this.apellido = apellido;
