@@ -20,7 +20,7 @@ public class SituacionAcademica {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "nroEstudiante")
 	private Estudiante estudiante;
 

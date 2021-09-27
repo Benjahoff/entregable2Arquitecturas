@@ -40,9 +40,6 @@ public class Queries {
 		em.persist(estudiante);
 	}
 
-	public void matricularEstudiante() {
-
-	}
 
 	/**
 	 * Permite matricular un estudiante en una carrera con el dni del estudiante y
@@ -112,7 +109,40 @@ public class Queries {
 		}
 		return null;
 	}
+	
+	public List<Estudiante> getEstudiantesByApellido(){	
+		@SuppressWarnings("unchecked")
+		List<Estudiante> retornedList = em
+				.createQuery("SELECT e FROM Estudiante e ORDER BY e.apellido").getResultList();
+		if(!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+	
+	
+	public List<Estudiante> getEstudiantesByGenero(String genero){	
+		@SuppressWarnings("unchecked")
+		List<Estudiante> retornedList = em
+				.createQuery("SELECT e FROM Estudiante e WHERE e.genero =: genero")
+				.setParameter("genero", genero).getResultList();
+		if(!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+	//f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
+	public List<Carrera> getCarrerasConEstudiantesSortByCantidad(){
+		@SuppressWarnings("unchecked")
+		List<Carrera> retornedList = em
+				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s GROUP BY c.idCarrera ORDER BY COUNT(s.estudiante)").getResultList();
+//				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s ").getResultList();
 
+		if(!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
 	/**
 	 * Permite conocer el identificador de una carrera con el solo hecho de saber su
 	 * nombre

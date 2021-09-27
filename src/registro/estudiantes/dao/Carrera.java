@@ -59,4 +59,11 @@ public class Carrera {
 	public void setNombreCarrera(String nombreCarrera) {
 		this.nombreCarrera = nombreCarrera;
 	}
+
+	@Override
+	public String toString() {
+		return "Carrera [idCarrera=" + idCarrera + ", facultad=" + facultad + ", nombreCarrera=" + nombreCarrera
+				+ ", estudiantes=" + estudiantes + "]";
+	}
+	
 }
