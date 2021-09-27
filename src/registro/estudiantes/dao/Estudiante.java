@@ -33,6 +33,18 @@ public class Estudiante {
 		this.genero = genero;
 	}
 
+	public Estudiante(String nombre, String apellido, Long dni, String genero, Ciudad ciudad) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.genero = genero;
+		this.ciudad = ciudad;
+	}
+
+	/**
+	 * Instanciador con superclase
+	 */
 	public Estudiante() {
 		super();
 		// TODO Auto-generated constructor stub

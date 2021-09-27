@@ -26,6 +26,9 @@ public class Carrera {
 		this.nombreCarrera = nombreCarrera;
 	}
 
+	/**
+	 * Instanciador con superclase
+	 */
 	public Carrera() {
 		super();
 		// TODO Auto-generated constructor stub

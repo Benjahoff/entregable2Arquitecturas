@@ -22,6 +22,9 @@ public class Facultad {
 		this.nombreFacultad = nombreFacultad;
 	}
 
+	/**
+	 * Instanciador con superclase
+	 */
 	public Facultad() {
 		super();
 		// TODO Auto-generated constructor stub

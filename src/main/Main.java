@@ -11,8 +11,8 @@ public class Main {
 		CSVtoMYSQL importador= new CSVtoMYSQL();
 		
 //		importador.importarCSVFacultad(queries);
-//		queries.darAltaEstudiante("Martin", "Aguirre", (long) 39117327 , "male", "Ciudad");
-		System.out.println(queries.seleccionarCiudad(1, "Seattle"));
+//		queries.darAltaEstudiante("Martin", "Aguirre", (long) 39117327 , "male", "Bolivar");
+		queries.matricularEstudiante(5,"Three-banded plover");
 		queries.closeConnection();
 	}
 

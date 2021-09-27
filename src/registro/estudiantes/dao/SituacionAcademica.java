@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ public class SituacionAcademica {
 
 //	Me dice que todas las clases deben llevar un identificador, sino me tira error: CONSULTAR
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	@OneToOne
@@ -45,6 +48,14 @@ public class SituacionAcademica {
 		this.egresado = egresado;
 		this.fechaInscripcion = fechaInscripcion;
 		this.fechaEgreso = fechaEgreso;
+	}
+
+	/**
+	 * Instanciador con superclase
+	 */
+	public SituacionAcademica() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Estudiante getEstudiante() {

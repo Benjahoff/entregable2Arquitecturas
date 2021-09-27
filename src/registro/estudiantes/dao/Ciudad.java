@@ -29,6 +29,9 @@ public class Ciudad {
 		this.pais = pais;
 	}
 
+	/**
+	 * Instanciador con superclase
+	 */
 	public Ciudad() {
 		super();
 		// TODO Auto-generated constructor stub
