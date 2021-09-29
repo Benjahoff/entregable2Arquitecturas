@@ -1,5 +1,6 @@
 package registro.estudiantes;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -165,6 +166,25 @@ public class Queries {
 	 * @param nombreCarrera el nombre de la carrera
 	 * @return el identificador de la carrera
 	 */
+	
+	/**
+	 * 
+	 * @param nombreCarrera
+	 * @return3) Generar un reporte de las carreras, que para cada carrera incluya información de los
+				inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
+				los años de manera cronológica.
+				de carrera hay que ir a situacion academica por idCarrera y luego verificar que fecha inscripcion o ingreso esten dengro del año dado
+	 */
+	
+	public List<Carrera> getAlumnosPorAnio(){
+		@SuppressWarnings("unchecked")
+		List<Carrera> retornedList = em.createQuery("SELECT c FROM Carrera c JOIN c.estudiantes s GROUP BY (YEAR(s.fechaInscripcion))").getResultList();
+		if (!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+		
+	}
 	private Carrera getidCarrera(String nombreCarrera) {
 		@SuppressWarnings("unchecked")
 		List<Carrera> idCarrera = em.createQuery("SELECT c FROM Carrera c WHERE c.nombreCarrera=:nombreCarrera")
@@ -212,5 +232,51 @@ public class Queries {
 		em.getTransaction().commit();
 		em.close();
 		this.emf.close();
+	}
+
+	public Facultad getFacultadById(int idfacu) {
+		@SuppressWarnings("unchecked")
+		List<Facultad> f = em.createQuery("SELECT f FROM Facultad f WHERE f.idFacultad =: idFacultad")
+				.setParameter("idFacultad", idfacu).getResultList();
+		if(!f.isEmpty()) {
+			return (Facultad) f.get(0);
+		}
+		return null;
+	}
+
+	public void insertCarrera(Carrera carr) {
+		em.persist(carr);
+	}
+
+	public void insertCiudad(Ciudad city) {
+		em.persist(city);		
+	}
+
+	Ciudad getCiudadForId(int idCiudad) {
+		@SuppressWarnings("unchecked")
+		List<Ciudad> c = em.createQuery("SELECT c FROM Ciudad c WHERE c.idCiudad =: idCiudad")
+				.setParameter("idCiudad", idCiudad).getResultList();
+		if(!c.isEmpty()) {
+			return (Ciudad) c.get(0);
+		}
+		return null;
+	}
+
+	public void insertEstudiante(Estudiante student) {
+		em.persist(student);		
+	}
+
+	public void insertSituacionAcademica(SituacionAcademica situacion) {
+		em.persist(situacion);				
+	}
+
+	public Carrera getCarreraById(int idCarrera) {
+		@SuppressWarnings("unchecked")
+		List<Carrera> c = em.createQuery("SELECT c FROM Carrera c WHERE c.idCarrera =: idCarrera")
+				.setParameter("idCarrera", idCarrera).getResultList();
+		if(!c.isEmpty()) {
+			return (Carrera) c.get(0);
+		}
+		return null;
 	}
 }

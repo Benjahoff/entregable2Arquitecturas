@@ -35,13 +35,13 @@ public class SituacionAcademica {
 	private boolean egresado;
 
 	@Column
-	private Date fechaInscripcion;
+	private String fechaInscripcion;
 
 	@Column(nullable = true)
-	private Date fechaEgreso;
+	private String fechaEgreso;
 
 	public SituacionAcademica(Estudiante estudiante, Carrera carrera, int antiguedad, boolean egresado,
-			Date fechaInscripcion, Date fechaEgreso) {
+			String fechaInscripcion, String fechaEgreso) {
 		this.estudiante = estudiante;
 		this.carrera = carrera;
 		this.antiguedad = antiguedad;
@@ -90,19 +90,19 @@ public class SituacionAcademica {
 		this.egresado = egresado;
 	}
 
-	public Date getFechaInscripcion() {
+	public String getFechaInscripcion() {
 		return fechaInscripcion;
 	}
 
-	public void setFechaInscripcion(Date fechaInscripcion) {
+	public void setFechaInscripcion(String fechaInscripcion) {
 		this.fechaInscripcion = fechaInscripcion;
 	}
 
-	public Date getFechaEgreso() {
+	public String getFechaEgreso() {
 		return fechaEgreso;
 	}
 
-	public void setFechaEgreso(Date fechaEgreso) {
+	public void setFechaEgreso(String fechaEgreso) {
 		this.fechaEgreso = fechaEgreso;
 	}
 

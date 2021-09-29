@@ -2,7 +2,10 @@ package registro.estudiantes;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -63,12 +66,19 @@ public class CSVtoMYSQL {
 				for (CSVRecord row : parser) {
 					// int idCarrera, Facultad facultad, String nombreCarrera
 					int idCarrera = Integer.parseInt(row.get("idCarrera"));
-					int idfacu = Integer.parseInt(row.get("facultad"));
+					int idfacu = Integer.parseInt(row.get("idFacultad"));
 					String nombreCarrera = row.get("nombreCarrera");
-//				Carrera temp = new Carrera()
+					Facultad temp;
+					temp = queries.getFacultadById(idfacu);
+					Carrera carreraTemp = new Carrera(idCarrera, temp, nombreCarrera);
+					carreras.add(carreraTemp);
 				}
 				// insertar
-
+				Iterator<Carrera> it = carreras.iterator();
+				while (it.hasNext()) {
+					queries.insertCarrera(it.next());
+				}
+				isCarreraImported = true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,13 +93,21 @@ public class CSVtoMYSQL {
 			ArrayList<Ciudad> ciudades = new ArrayList<Ciudad>();
 			CSVParser parser;
 			try {
-				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("facultad.csv"));
+				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("ciudad.csv"));
 				for (CSVRecord row : parser) {
-					// int , String
-
+					int idCiudad = Integer.parseInt(row.get("idCiudad"));
+					String nombreCiudad = row.get("nombreCiudad");
+					String pais = row.get("pais");
+					String provincia = row.get("provincia");
+					Ciudad Ciudadtemp = new Ciudad(nombreCiudad, provincia, pais);
+					ciudades.add(Ciudadtemp);
 				}
 				// insertar
-
+				Iterator<Ciudad> it = ciudades.iterator();
+				while (it.hasNext()) {
+					queries.insertCiudad(it.next());
+				}
+				isCiudadImported = true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -104,12 +122,24 @@ public class CSVtoMYSQL {
 			ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
 			CSVParser parser;
 			try {
-				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("facultad.csv"));
+				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("estudiante.csv"));
 				for (CSVRecord row : parser) {
-					// int , String
-
+					int nroEstudiante = Integer.parseInt(row.get("nroEstudiante"));
+					String apellido = row.get("apellido");
+					Long dni = Long.parseLong(row.get("dni"));
+					String genero = row.get("genero");
+					String nombre = row.get("nombre");
+					int idCiudad = Integer.parseInt(row.get("idCiudad"));
+					Ciudad ciudadtemp;
+					ciudadtemp = queries.getCiudadForId(idCiudad);
+					Estudiante Estudiantetemp = new Estudiante(nombre, apellido, dni, genero, ciudadtemp);
+					estudiantes.add(Estudiantetemp);
 				}
 				// insertar
+				Iterator<Estudiante> it = estudiantes.iterator();
+				while (it.hasNext()) {
+					queries.insertEstudiante(it.next());
+				}
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -124,12 +154,38 @@ public class CSVtoMYSQL {
 			ArrayList<SituacionAcademica> situacionesAcad = new ArrayList<SituacionAcademica>();
 			CSVParser parser;
 			try {
-				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("facultad.csv"));
+				parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader("situacion_academica.csv"));
 				for (CSVRecord row : parser) {
-					// int , String
+					int id = Integer.parseInt(row.get("id"));
+					int antiguedad = Integer.parseInt(row.get("antiguedad"));
+					boolean egresado = Boolean.parseBoolean(row.get("egresado"));
+					int idCarrera = Integer.parseInt(row.get("idCarrera"));
+					int nroEstudiante = Integer.parseInt(row.get("nroEstudiante"));
+					String fechaEgreso = row.get("fechaEgreso");
+					String fechaInscripcion =row.get("fechaInscripcion");
 
+//					SimpleDateFormat parsero = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+//					Date dateTest = parsero.parse(row.get("fechaInscripcion"));
+//					String input = "Thu Jun 18 20:56:02 EDT 2009";
+//					SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+//					Date date = parser.parse(input);
+//					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//					String formattedDate = formatter.format(date);
+
+					Carrera carreraTemp;
+					carreraTemp = queries.getCarreraById(idCarrera);
+					Estudiante estudianteTemp;
+					estudianteTemp = queries.getEstudiante(nroEstudiante);
+					boolean toSend = false;
+					
+					SituacionAcademica temp = new SituacionAcademica(estudianteTemp,carreraTemp,antiguedad, egresado, fechaInscripcion, fechaEgreso);
+					situacionesAcad.add(temp);
 				}
 				// insertar
+				Iterator<SituacionAcademica> it = situacionesAcad.iterator();
+				while (it.hasNext()) {
+					queries.insertSituacionAcademica(it.next());
+				}
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
