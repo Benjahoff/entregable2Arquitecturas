@@ -41,7 +41,6 @@ public class Queries {
 		em.persist(estudiante);
 	}
 
-
 	/**
 	 * Permite matricular un estudiante en una carrera con el dni del estudiante y
 	 * el nombre de la carrera
@@ -110,55 +109,55 @@ public class Queries {
 		}
 		return null;
 	}
-	
-	public List<Estudiante> getEstudiantesByApellido(){	
-		@SuppressWarnings("unchecked")
-		List<Estudiante> retornedList = em
-				.createQuery("SELECT e FROM Estudiante e ORDER BY e.apellido").getResultList();
-		if(!retornedList.isEmpty()) {
-			return retornedList;
-		}
-		return null;
-	}
-	
-	
-	public List<Estudiante> getEstudiantesByGenero(String genero){	
-		@SuppressWarnings("unchecked")
-		List<Estudiante> retornedList = em
-				.createQuery("SELECT e FROM Estudiante e WHERE e.genero =: genero")
-				.setParameter("genero", genero).getResultList();
-		if(!retornedList.isEmpty()) {
-			return retornedList;
-		}
-		return null;
-	}
-	
-	
-	//f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
-	public List<Carrera> getCarrerasConEstudiantesSortByCantidad(){
-		@SuppressWarnings("unchecked")
-		List<Carrera> retornedList = em
-				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s GROUP BY c.idCarrera ORDER BY COUNT(s.estudiante)").getResultList();
-//				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s ").getResultList();
 
-		if(!retornedList.isEmpty()) {
-			return retornedList;
-		}
-		return null;
-	}
-	
-//	g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
-	
-	public List<Estudiante> getEstudiantesByCiudad(int idCiudad, int idCarrera){
+	public List<Estudiante> getEstudiantesByApellido() {
 		@SuppressWarnings("unchecked")
-		List<Estudiante> retornedList = em.createQuery("SELECT e FROM Estudiante e JOIN e.carreras s WHERE s.carrera.idCarrera =: idCarrera AND  e.ciudad.idCiudad =: idCiudad")
-				.setParameter("idCiudad", idCiudad)
-				.setParameter("idCarrera", idCarrera).getResultList();
+		List<Estudiante> retornedList = em.createQuery("SELECT e FROM Estudiante e ORDER BY e.apellido")
+				.getResultList();
 		if (!retornedList.isEmpty()) {
 			return retornedList;
 		}
 		return null;
 	}
+
+	public List<Estudiante> getEstudiantesByGenero(String genero) {
+		@SuppressWarnings("unchecked")
+		List<Estudiante> retornedList = em.createQuery("SELECT e FROM Estudiante e WHERE e.genero =: genero")
+				.setParameter("genero", genero).getResultList();
+		if (!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+
+	// f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad
+	// de inscriptos.
+	public List<Carrera> getCarrerasConEstudiantesSortByCantidad() {
+		@SuppressWarnings("unchecked")
+		List<Carrera> retornedList = em.createQuery(
+				"SELECT c FROM Carrera c JOIN  c.estudiantes s GROUP BY c.idCarrera ORDER BY COUNT(s.estudiante)")
+				.getResultList();
+//				.createQuery("SELECT c FROM Carrera c JOIN  c.estudiantes s ").getResultList();
+
+		if (!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+
+//	g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
+
+	public List<Estudiante> getEstudiantesByCiudad(int idCiudad, int idCarrera) {
+		@SuppressWarnings("unchecked")
+		List<Estudiante> retornedList = em.createQuery(
+				"SELECT e FROM Estudiante e JOIN e.carreras s WHERE s.carrera.idCarrera =: idCarrera AND  e.ciudad.idCiudad =: idCiudad")
+				.setParameter("idCiudad", idCiudad).setParameter("idCarrera", idCarrera).getResultList();
+		if (!retornedList.isEmpty()) {
+			return retornedList;
+		}
+		return null;
+	}
+
 	/**
 	 * Permite conocer el identificador de una carrera con el solo hecho de saber su
 	 * nombre
@@ -166,25 +165,34 @@ public class Queries {
 	 * @param nombreCarrera el nombre de la carrera
 	 * @return el identificador de la carrera
 	 */
-	
+
 	/**
+	 * Generar un reporte de las carreras, que para cada carrera incluya información
+	 * de los inscriptos y egresados por año. Se deben ordenar las carreras
+	 * alfabéticamente, y presentar los años de manera cronológica. de carrera hay
+	 * que ir a situacion academica por idCarrera y luego verificar que fecha
+	 * inscripcion o ingreso esten dengro del año dado
 	 * 
-	 * @param nombreCarrera
-	 * @return3) Generar un reporte de las carreras, que para cada carrera incluya información de los
-				inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
-				los años de manera cronológica.
-				de carrera hay que ir a situacion academica por idCarrera y luego verificar que fecha inscripcion o ingreso esten dengro del año dado
+	 * @param nombreCarrera @return3)
 	 */
-	
-	public List<Carrera> getAlumnosPorAnio(){
+
+	// PERIODISMO 
+	// ANIO=> 2014 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 5 CANTEGRESADOS=>3
+	// ANIO=> 2015 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 50 CANTEGRESADOS=>23
+	public List<Carrera> getReporte() {
 		@SuppressWarnings("unchecked")
-		List<Carrera> retornedList = em.createQuery("SELECT c FROM Carrera c JOIN c.estudiantes s GROUP BY (YEAR(s.fechaInscripcion))").getResultList();
+		List<Carrera> retornedList = em
+				.createQuery("SELECT c FROM Carrera c JOIN c.estudiantes s")
+				.getResultList();
+		
+		
 		if (!retornedList.isEmpty()) {
 			return retornedList;
 		}
 		return null;
-		
+
 	}
+
 	private Carrera getidCarrera(String nombreCarrera) {
 		@SuppressWarnings("unchecked")
 		List<Carrera> idCarrera = em.createQuery("SELECT c FROM Carrera c WHERE c.nombreCarrera=:nombreCarrera")
@@ -238,7 +246,7 @@ public class Queries {
 		@SuppressWarnings("unchecked")
 		List<Facultad> f = em.createQuery("SELECT f FROM Facultad f WHERE f.idFacultad =: idFacultad")
 				.setParameter("idFacultad", idfacu).getResultList();
-		if(!f.isEmpty()) {
+		if (!f.isEmpty()) {
 			return (Facultad) f.get(0);
 		}
 		return null;
@@ -249,32 +257,32 @@ public class Queries {
 	}
 
 	public void insertCiudad(Ciudad city) {
-		em.persist(city);		
+		em.persist(city);
 	}
 
 	Ciudad getCiudadForId(int idCiudad) {
 		@SuppressWarnings("unchecked")
 		List<Ciudad> c = em.createQuery("SELECT c FROM Ciudad c WHERE c.idCiudad =: idCiudad")
 				.setParameter("idCiudad", idCiudad).getResultList();
-		if(!c.isEmpty()) {
+		if (!c.isEmpty()) {
 			return (Ciudad) c.get(0);
 		}
 		return null;
 	}
 
 	public void insertEstudiante(Estudiante student) {
-		em.persist(student);		
+		em.persist(student);
 	}
 
 	public void insertSituacionAcademica(SituacionAcademica situacion) {
-		em.persist(situacion);				
+		em.persist(situacion);
 	}
 
 	public Carrera getCarreraById(int idCarrera) {
 		@SuppressWarnings("unchecked")
 		List<Carrera> c = em.createQuery("SELECT c FROM Carrera c WHERE c.idCarrera =: idCarrera")
 				.setParameter("idCarrera", idCarrera).getResultList();
-		if(!c.isEmpty()) {
+		if (!c.isEmpty()) {
 			return (Carrera) c.get(0);
 		}
 		return null;

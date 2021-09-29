@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Iterator;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.hibernate.internal.build.AllowSysOut;
 
 import registro.estudiantes.dao.Carrera;
 import registro.estudiantes.dao.Ciudad;
@@ -162,23 +164,13 @@ public class CSVtoMYSQL {
 					int idCarrera = Integer.parseInt(row.get("idCarrera"));
 					int nroEstudiante = Integer.parseInt(row.get("nroEstudiante"));
 					String fechaEgreso = row.get("fechaEgreso");
-					String fechaInscripcion =row.get("fechaInscripcion");
+					String fechaInscripcion = row.get("fechaInscripcion");
 
-//					SimpleDateFormat parsero = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-//					Date dateTest = parsero.parse(row.get("fechaInscripcion"));
-//					String input = "Thu Jun 18 20:56:02 EDT 2009";
-//					SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-//					Date date = parser.parse(input);
-//					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//					String formattedDate = formatter.format(date);
-
-					Carrera carreraTemp;
-					carreraTemp = queries.getCarreraById(idCarrera);
-					Estudiante estudianteTemp;
-					estudianteTemp = queries.getEstudiante(nroEstudiante);
-					boolean toSend = false;
+					Carrera carreraTemp = queries.getCarreraById(idCarrera);
+					Estudiante estudianteTemp = queries.getEstudiante(nroEstudiante+500); // por alguna extraña razon le suma 500 en la db
 					
-					SituacionAcademica temp = new SituacionAcademica(estudianteTemp,carreraTemp,antiguedad, egresado, fechaInscripcion, fechaEgreso);
+					SituacionAcademica temp = new SituacionAcademica(estudianteTemp, carreraTemp, antiguedad, egresado,
+							Timestamp.valueOf(fechaInscripcion), Timestamp.valueOf(fechaEgreso));
 					situacionesAcad.add(temp);
 				}
 				// insertar

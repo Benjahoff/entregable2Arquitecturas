@@ -1,6 +1,7 @@
 package registro.estudiantes.dao;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,13 +36,13 @@ public class SituacionAcademica {
 	private boolean egresado;
 
 	@Column
-	private String fechaInscripcion;
+	private Timestamp fechaInscripcion;
 
 	@Column(nullable = true)
-	private String fechaEgreso;
+	private Timestamp fechaEgreso;
 
 	public SituacionAcademica(Estudiante estudiante, Carrera carrera, int antiguedad, boolean egresado,
-			String fechaInscripcion, String fechaEgreso) {
+			Timestamp fechaInscripcion, Timestamp fechaEgreso) {
 		this.estudiante = estudiante;
 		this.carrera = carrera;
 		this.antiguedad = antiguedad;
@@ -90,19 +91,19 @@ public class SituacionAcademica {
 		this.egresado = egresado;
 	}
 
-	public String getFechaInscripcion() {
+	public Timestamp getFechaInscripcion() {
 		return fechaInscripcion;
 	}
 
-	public void setFechaInscripcion(String fechaInscripcion) {
+	public void setFechaInscripcion(Timestamp fechaInscripcion) {
 		this.fechaInscripcion = fechaInscripcion;
 	}
 
-	public String getFechaEgreso() {
+	public Timestamp getFechaEgreso() {
 		return fechaEgreso;
 	}
 
-	public void setFechaEgreso(String fechaEgreso) {
+	public void setFechaEgreso(Timestamp fechaEgreso) {
 		this.fechaEgreso = fechaEgreso;
 	}
 
