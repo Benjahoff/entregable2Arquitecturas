@@ -1,10 +1,16 @@
 package repository.implementation;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import registro.estudiantes.dao.SituacionAcademica;
 import repository.SituacionAcademicaRepository;
 
 public class SituacionAcademicaImplementation implements SituacionAcademicaRepository{
-
+	
+	private EntityManagerFactory emf;
+	private EntityManager em;
+	
 	@Override
 	public SituacionAcademica getSituacionAcademicaByID(int id) {
 		// TODO Auto-generated method stub
@@ -19,8 +25,8 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 
 	@Override
 	public SituacionAcademica saveSituacionAcademica(SituacionAcademica situacionacademica) {
-		// TODO Auto-generated method stub
-		return null;
+		em.persist(situacionacademica);
+		return situacionacademica;
 	}
 
 	@Override

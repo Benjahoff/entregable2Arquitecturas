@@ -9,5 +9,5 @@ public interface CarreraRepository {
 
 	Carrera saveCarrera(Carrera carrera);
 
-	void deleteCiudad(Carrera carrera);
+	void deleteCarrera(Carrera carrera);
 }
