@@ -20,6 +20,7 @@ import registro.estudiantes.dao.Ciudad;
 import registro.estudiantes.dao.Estudiante;
 import registro.estudiantes.dao.Facultad;
 import registro.estudiantes.dao.SituacionAcademica;
+import repository.implementation.FacultadImplementation;
 
 public class CSVtoMYSQL {
 	private static boolean isFacultadImported = false;
@@ -32,7 +33,7 @@ public class CSVtoMYSQL {
 
 	}
 
-	public void importarCSVFacultad(Queries queries) {
+	public void importarCSVFacultad( FacultadImplementation facu) {
 		if (!isFacultadImported) {
 			ArrayList<Facultad> facultades = new ArrayList<Facultad>();
 			CSVParser parser;
@@ -48,7 +49,7 @@ public class CSVtoMYSQL {
 				// insertar
 				Iterator<Facultad> it = facultades.iterator();
 				while (it.hasNext()) {
-					queries.insertFacultad(it.next());
+					facu.saveFacultad(it.next());
 				}
 				isFacultadImported = true;
 			} catch (IOException e) {
@@ -160,14 +161,15 @@ public class CSVtoMYSQL {
 				for (CSVRecord row : parser) {
 					int id = Integer.parseInt(row.get("id"));
 					int antiguedad = Integer.parseInt(row.get("antiguedad"));
-					boolean egresado = Boolean.parseBoolean(row.get("egresado"));
+					int egresadoInt=Integer.parseInt(row.get("egresado"));
+					boolean egresado= egresadoInt !=0 ? true : false;
 					int idCarrera = Integer.parseInt(row.get("idCarrera"));
 					int nroEstudiante = Integer.parseInt(row.get("nroEstudiante"));
 					String fechaEgreso = row.get("fechaEgreso");
 					String fechaInscripcion = row.get("fechaInscripcion");
 
 					Carrera carreraTemp = queries.getCarreraById(idCarrera);
-					Estudiante estudianteTemp = queries.getEstudiante(nroEstudiante+500); // por alguna extraña razon le suma 500 en la db
+					Estudiante estudianteTemp = queries.getEstudiante(nroEstudiante); // por alguna extraña razon le suma 500 en la db
 					
 					SituacionAcademica temp = new SituacionAcademica(estudianteTemp, carreraTemp, antiguedad, egresado,
 							Timestamp.valueOf(fechaInscripcion), Timestamp.valueOf(fechaEgreso));

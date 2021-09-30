@@ -18,7 +18,7 @@ public class SituacionAcademica {
 
 //	Me dice que todas las clases deben llevar un identificador, sino me tira error: CONSULTAR
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@ManyToOne

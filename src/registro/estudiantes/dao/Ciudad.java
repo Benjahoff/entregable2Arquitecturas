@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Ciudad {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idCiudad;
 	@Column
 	private String nombreCiudad;
