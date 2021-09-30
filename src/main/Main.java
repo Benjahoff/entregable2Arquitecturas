@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import DTO.ReporteCarreras;
 import registro.estudiantes.CSVtoMYSQL;
 import registro.estudiantes.Queries;
 import registro.estudiantes.dao.Carrera;
@@ -17,19 +18,17 @@ public class Main {
 		Queries queries = new Queries();
 		CSVtoMYSQL importador = new CSVtoMYSQL();
 		
-		importador.importarCSVFacultad(queries);
-		importador.importarCSVCarrera(queries);
-		importador.importarCSVCiudad(queries);
-		importador.importarCSVEstudiante(queries);
-		importador.importarCSVSituacionAcademica(queries);
+//		importador.importarCSVFacultad(queries);
+//		importador.importarCSVCarrera(queries);
+//		importador.importarCSVCiudad(queries);
+//		importador.importarCSVEstudiante(queries);
+//		importador.importarCSVSituacionAcademica(queries);
 		
 		
-//		List<Carrera> lista =queries.getReporte();
-//		for(Carrera carrera: lista) {
-//			System.out.println(carrera.toString());
-//		}
-		
-//		Timestamp.valueOf("");
+		List<ReporteCarreras> lista =queries.getReporte();
+		for(ReporteCarreras carrera: lista) {
+			System.out.println(carrera.toString());
+		}
 		
 		
 //		queries.darAltaEstudiante("Martin", "Aguirre", (long) 39117327, "Masculino", "Bolivar");

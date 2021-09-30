@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import DTO.ReporteCarreras;
 import registro.estudiantes.dao.Carrera;
 import registro.estudiantes.dao.Ciudad;
 import registro.estudiantes.dao.Estudiante;
@@ -166,33 +167,6 @@ public class Queries {
 	 * @return el identificador de la carrera
 	 */
 
-	/**
-	 * Generar un reporte de las carreras, que para cada carrera incluya información
-	 * de los inscriptos y egresados por año. Se deben ordenar las carreras
-	 * alfabéticamente, y presentar los años de manera cronológica. de carrera hay
-	 * que ir a situacion academica por idCarrera y luego verificar que fecha
-	 * inscripcion o ingreso esten dengro del año dado
-	 * 
-	 * @param nombreCarrera @return3)
-	 */
-
-	// PERIODISMO 
-	// ANIO=> 2014 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 5 CANTEGRESADOS=>3
-	// ANIO=> 2015 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 50 CANTEGRESADOS=>23
-	public List<Carrera> getReporte() {
-		@SuppressWarnings("unchecked")
-		List<Carrera> retornedList = em
-				.createQuery("SELECT c FROM Carrera c JOIN c.estudiantes s")
-				.getResultList();
-		
-		
-		if (!retornedList.isEmpty()) {
-			return retornedList;
-		}
-		return null;
-
-	}
-
 	private Carrera getidCarrera(String nombreCarrera) {
 		@SuppressWarnings("unchecked")
 		List<Carrera> idCarrera = em.createQuery("SELECT c FROM Carrera c WHERE c.nombreCarrera=:nombreCarrera")
@@ -286,5 +260,34 @@ public class Queries {
 			return (Carrera) c.get(0);
 		}
 		return null;
+	}
+
+	/**
+	 * Generar un reporte de las carreras, que para cada carrera incluya información
+	 * de los inscriptos y egresados por año. Se deben ordenar las carreras
+	 * alfabéticamente, y presentar los años de manera cronológica. de carrera hay
+	 * que ir a situacion academica por idCarrera y luego verificar que fecha
+	 * inscripcion o ingreso esten dengro del año dado
+	 * 
+	 * @param nombreCarrera @return3)
+	 */
+
+	// PERIODISMO
+	// ANIO=> 2014 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 5
+	// CANTEGRESADOS=>3
+	// ANIO=> 2015 ID=> 1 NOMBRECARRERA => PERIODISMO CANTINSCRIPTOS=> 50
+	// CANTEGRESADOS=>23
+	public List<ReporteCarreras> getReporte() {
+		@SuppressWarnings("unchecked")
+		List<ReporteCarreras> retornoDTOCarreras = em.createQuery(
+				"SELECT new DTO.ReporteCarreras(c.idCarrera, c.nombreCarrera, YEAR(s.fechaInscripcion),sum(s.egresado+0), COUNT(s.estudiante))"
+				+ "FROM Carrera c JOIN c.estudiantes s GROUP BY (c.idCarrera) ORDER BY YEAR(s.fechaInscripcion) ASC, c.nombreCarrera ASC")
+				.getResultList();
+
+		if (!retornoDTOCarreras.isEmpty()) {
+			return retornoDTOCarreras;
+		}
+		return null;
+
 	}
 }
