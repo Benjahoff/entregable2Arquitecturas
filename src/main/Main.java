@@ -1,18 +1,8 @@
 package main;
 
-import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import DTO.ReporteCarreras;
 import registro.estudiantes.CSVtoMYSQL;
-import registro.estudiantes.Queries;
-import registro.estudiantes.dao.Carrera;
-import registro.estudiantes.dao.Estudiante;
 import repository.implementation.CarreraImplementation;
 import repository.implementation.CiudadImplementation;
 import repository.implementation.EstudianteImplementation;
@@ -23,6 +13,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
+		/**
+		 * Apertura de conexiones
+		 */
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("registroestudiantesdb");
 
 		CarreraImplementation carreraImplementation = new CarreraImplementation(emf.createEntityManager());
@@ -32,16 +26,31 @@ public class Main {
 		SituacionAcademicaImplementation situacionAcademicaImplementation = new SituacionAcademicaImplementation(
 				emf.createEntityManager());
 
-		Queries queries = new Queries();
+		/**
+		 * Importar Datos del CSV
+		 */
 		CSVtoMYSQL importador = new CSVtoMYSQL();
 
 		importador.importarCSVFacultad(facultadImplementation);
-		importador.importarCSVCarrera(queries);
-		importador.importarCSVCiudad(queries);
-		importador.importarCSVEstudiante(queries);
-		importador.importarCSVSituacionAcademica(queries);
+		importador.importarCSVCarrera(facultadImplementation, carreraImplementation);
+		importador.importarCSVCiudad(ciudadImplementation);
+		importador.importarCSVEstudiante(estudianteImplementation, ciudadImplementation);
+		importador.importarCSVSituacionAcademica(situacionAcademicaImplementation, carreraImplementation,
+				estudianteImplementation);
 
-		queries.closeConnection();
+		/**
+		 * Operaciones
+		 */
+
+		/**
+		 * Cierre de conexiones
+		 */
+		carreraImplementation.closeConnection();
+		ciudadImplementation.closeConnection();
+		estudianteImplementation.closeConnection();
+		facultadImplementation.closeConnection();
+		situacionAcademicaImplementation.closeConnection();
+		emf.close();
 	}
 
 }

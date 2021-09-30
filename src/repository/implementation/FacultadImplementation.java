@@ -104,4 +104,8 @@ public class FacultadImplementation implements FacultadRepository {
 
 	}
 
+	public void closeConnection() {
+		this.em.close();
+	}
+
 }

@@ -47,4 +47,7 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 
 	}
 
+	public void closeConnection() {
+		this.em.close();
+	}
 }

@@ -12,14 +12,6 @@ public class ReporteCarreras {
 		// TODO Auto-generated constructor stub
 	}
 
-	// solo para probar
-	public ReporteCarreras(int idCarrera, String nombreCarrera, int anio) {
-		super();
-		this.idCarrera = idCarrera;
-		this.nombreCarrera = nombreCarrera;
-		this.anio = anio;
-	}
-
 	public ReporteCarreras(int idCarrera, String nombreCarrera, int anio, Long egresados, Long inscriptos) {
 		super();
 		this.idCarrera = idCarrera;

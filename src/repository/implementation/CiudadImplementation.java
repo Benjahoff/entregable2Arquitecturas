@@ -8,14 +8,14 @@ import javax.persistence.EntityManagerFactory;
 import registro.estudiantes.dao.Ciudad;
 import repository.CiudadRepository;
 
-public class CiudadImplementation implements CiudadRepository{
-	
+public class CiudadImplementation implements CiudadRepository {
+
 	private EntityManager em;
 
 	public CiudadImplementation(EntityManager em) {
-		this.em=em;
+		this.em = em;
 	}
-	
+
 	@Override
 	public Ciudad getCiudadByID(int id) {
 		em.getTransaction().begin();
@@ -56,7 +56,10 @@ public class CiudadImplementation implements CiudadRepository{
 		em.getTransaction().begin();
 		// TODO Auto-generated method stub
 		em.getTransaction().commit();
-		
+
 	}
 
+	public void closeConnection() {
+		this.em.close();
+	}
 }
