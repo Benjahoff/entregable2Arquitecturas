@@ -1,4 +1,4 @@
-# entregable2Arquitecturas
+# Entregable 2 Arquitecturas
 
 Para la correcta ejecución del proyecto se requiere de una base de datos MySql con el nombre "registroestudiantesdb" corriendo en el puerto 3306 sin contraseña
 
