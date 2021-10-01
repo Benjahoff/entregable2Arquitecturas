@@ -41,6 +41,12 @@ public class EstudianteImplementation implements EstudianteRepository {
 		return null;
 	}
 
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param nombre del estudiante
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public Estudiante getEstudianteByName(String name) {
 		em.getTransaction().begin();
@@ -50,7 +56,13 @@ public class EstudianteImplementation implements EstudianteRepository {
 		return e;
 
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param estudiante a guardar
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public Estudiante saveEstudiante(Estudiante estudiante) {
 		em.getTransaction().begin();

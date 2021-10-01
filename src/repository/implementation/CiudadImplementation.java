@@ -15,7 +15,12 @@ public class CiudadImplementation implements CiudadRepository {
 	public CiudadImplementation(EntityManager em) {
 		this.em = em;
 	}
-
+	
+	/**
+	 * Permite obtener una ciudad apartir de su id	 
+	 *  @param id de la ciudad 
+	 * @return retorna una ciudad
+	 */
 	@Override
 	public Ciudad getCiudadByID(int id) {
 		em.getTransaction().begin();
@@ -28,7 +33,12 @@ public class CiudadImplementation implements CiudadRepository {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Permite obtener una ciudad apartir de su nombre	 
+	 *  @param nombre de la ciudad
+	 * @return retorna una ciudad
+	 */
 	@Override
 	public Ciudad getCiudadByName(String name) {
 		em.getTransaction().begin();
@@ -42,7 +52,12 @@ public class CiudadImplementation implements CiudadRepository {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Permite guardar una ciudad
+	 * @param la ciudad a guardar
+	 * @return retorna la ciudad guardada
+	 */
 	@Override
 	public Ciudad saveCiudad(Ciudad ciudad) {
 		em.getTransaction().begin();
@@ -50,7 +65,11 @@ public class CiudadImplementation implements CiudadRepository {
 		em.getTransaction().commit();
 		return ciudad;
 	}
-
+	
+	/**
+	 * Permite borrar una ciudad, la cual se pasa por parametro
+	 *  @param la ciudad a borrar
+	 */
 	@Override
 	public void deleteCiudad(Ciudad ciudad) {
 		em.getTransaction().begin();

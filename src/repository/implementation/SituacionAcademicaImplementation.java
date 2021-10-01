@@ -13,7 +13,13 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 	public SituacionAcademicaImplementation(EntityManager em) {
 		this.em = em;
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param id de situacion academica
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public SituacionAcademica getSituacionAcademicaByID(int id) {
 		em.getTransaction().begin();
@@ -21,7 +27,13 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 		em.getTransaction().commit();
 		return null;
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param nombre de situacion academica
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public SituacionAcademica getSituacionAcademicaByName(String name) {
 		em.getTransaction().begin();
@@ -30,7 +42,13 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 		return null;
 
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param situacion academica a guardar
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public SituacionAcademica saveSituacionAcademica(SituacionAcademica situacionacademica) {
 		em.getTransaction().begin();
@@ -38,7 +56,13 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 		em.getTransaction().commit();
 		return situacionacademica;
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param situacion academica a borrar
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public void deleteSituacionAcademica(SituacionAcademica situacionacademica) {
 		em.getTransaction().begin();

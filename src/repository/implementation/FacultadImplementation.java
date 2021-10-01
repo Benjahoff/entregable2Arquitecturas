@@ -23,6 +23,12 @@ public class FacultadImplementation implements FacultadRepository {
 		this.em = em;
 	}
 
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param id de la facultad 
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public Facultad getFacultadByID(int id) {
 		em.getTransaction().begin();
@@ -36,7 +42,13 @@ public class FacultadImplementation implements FacultadRepository {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param nombre de la facultad
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public Facultad getFacultadByName(String name) {
 		em.getTransaction().begin();
@@ -50,7 +62,13 @@ public class FacultadImplementation implements FacultadRepository {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param facultad a guardar
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public Facultad saveFacultad(Facultad facultad) {
 		em.getTransaction().begin();
@@ -58,7 +76,13 @@ public class FacultadImplementation implements FacultadRepository {
 		em.getTransaction().commit();
 		return facultad;
 	}
-
+	
+	/**
+	 * Permite recuperar un estudiante por su nombre
+	 * 
+	 * @param facultad a borrar
+	 * @return retorna un objeto estudiante
+	 */
 	@Override
 	public void deleteFacultad(Facultad facultad) {
 		em.getTransaction().begin();

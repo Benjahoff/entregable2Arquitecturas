@@ -16,7 +16,13 @@ public class CarreraImplementation implements CarreraRepository {
 	public CarreraImplementation(EntityManager em) {
 		this.em = em;
 	}
-
+	
+	
+	/**
+	 * Permite obtener las carreras apartir de su ID
+	 * @param id de la carrera
+	 * @return retorna una carera
+	 */
 	@Override
 	public Carrera getCarreraByID(int id) {
 		em.getTransaction().begin();
@@ -29,7 +35,12 @@ public class CarreraImplementation implements CarreraRepository {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Permite obtener una carrera apartir de un nombre	 
+	 *  @param nombre de la carrera
+	 * @return retorna una carrera
+	 */
 	@Override
 	public Carrera getCarreraByName(String name) {
 		em.getTransaction().begin();
@@ -42,7 +53,12 @@ public class CarreraImplementation implements CarreraRepository {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Permite guardar una carrera 
+	 *  @param la carrera a guardar
+	 * @return retorna la carrera guardada
+	 */
 	@Override
 	public Carrera saveCarrera(Carrera carrera) {
 		em.getTransaction().begin();
@@ -50,7 +66,11 @@ public class CarreraImplementation implements CarreraRepository {
 		em.getTransaction().commit();
 		return carrera;
 	}
-
+	
+	/**
+	 * Permite borrar una carrera, pasando como parametro la misma
+	 *  @param la carrera a borrar
+	 */
 	@Override
 	public void deleteCarrera(Carrera carrera) {
 		em.getTransaction().begin();
