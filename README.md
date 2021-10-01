@@ -6,4 +6,4 @@ Para la correcta ejecución del proyecto se requiere de una base de datos MySql 
 Main : En el archivo main se crea el Entity Manager Factory y las implementaciones de los respectivos repositorios, estos se usan para resolver una serie de consultas 
 provistas por la cátedra
 
-![alt text](https://www.adslzone.net/app/uploads-adslzone.net/2019/04/borrar-fondo-imagen.jpg)
+![alt text](https://prnt.sc/1ueqrcf)
