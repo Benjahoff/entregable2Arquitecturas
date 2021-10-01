@@ -110,7 +110,7 @@ public class EstudianteImplementation implements EstudianteRepository {
 		@SuppressWarnings("unchecked")
 		List<Estudiante> retornedList = em.createQuery(
 				"SELECT e FROM Estudiante e JOIN e.carreras s WHERE s.carrera.idCarrera =: idCarrera AND  e.ciudad.idCiudad =: idCiudad")
-				.setParameter("idCiudad", idCiudad).setParameter("idCarrera", idCarrera).getResultList();
+				.setParameter("idCarrera", idCarrera).setParameter("idCiudad", idCiudad).getResultList();
 		em.getTransaction().commit();
 		if (!retornedList.isEmpty()) {
 			return retornedList;

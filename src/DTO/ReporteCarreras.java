@@ -3,16 +3,16 @@ package DTO;
 public class ReporteCarreras {
 	private int idCarrera;
 	private String nombreCarrera;
-	private int anio;
-	Long egresados;
-	Long inscriptos;
+	private Integer anio;
+	private Long egresados;
+	private Long inscriptos;
 
 	public ReporteCarreras() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReporteCarreras(int idCarrera, String nombreCarrera, int anio, Long egresados, Long inscriptos) {
+	public ReporteCarreras(int idCarrera, String nombreCarrera, Integer anio, Long egresados, Long inscriptos) {
 		super();
 		this.idCarrera = idCarrera;
 		this.nombreCarrera = nombreCarrera;
@@ -37,11 +37,11 @@ public class ReporteCarreras {
 		this.nombreCarrera = nombreCarrera;
 	}
 
-	public int getAnio() {
+	public Integer getAnio() {
 		return anio;
 	}
 
-	public void setAnio(int anio) {
+	public void setAnio(Integer anio) {
 		this.anio = anio;
 	}
 

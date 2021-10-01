@@ -1,10 +1,14 @@
 package main;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import DTO.ReporteCarreras;
 import registro.estudiantes.CSVtoMYSQL;
+import registro.estudiantes.dao.Carrera;
 import registro.estudiantes.dao.Estudiante;
 import repository.implementation.CarreraImplementation;
 import repository.implementation.CiudadImplementation;
@@ -21,15 +25,13 @@ public class Main {
 		 * Apertura de conexiones
 		 */
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("registroestudiantesdb");
-
 		CarreraImplementation carreraImplementation = new CarreraImplementation(emf.createEntityManager());
 		CiudadImplementation ciudadImplementation = new CiudadImplementation(emf.createEntityManager());
 		EstudianteImplementation estudianteImplementation = new EstudianteImplementation(emf.createEntityManager());
-		FacultadImplementation facultadImplementation = new FacultadImplementation(emf.createEntityManager());
+		FacultadImplementation facultadImplementation = new FacultadImplementation(emf.createEntityManager(), carreraImplementation, estudianteImplementation);
 		SituacionAcademicaImplementation situacionAcademicaImplementation = new SituacionAcademicaImplementation(
 				emf.createEntityManager());
 		
-		ReporteCarreras reporteCarreras= new ReporteCarreras();
 
 		/**
 		 * Importar Datos del CSV
@@ -59,13 +61,17 @@ public class Main {
 		 * 2) B
 		 * matricular un estudiante a una carrera
 		 */
-			facultadImplementation.matricularEstudiante(4333333, "African black crake");
+			facultadImplementation.matricularEstudiante((long) 4333333, "African black crake");
 		
 		/**
 		 * 2) C
 		 * recupera todos los estudiante con un ordenamiento por apellido
 		 */
-			System.out.println(estudianteImplementation.getEstudiantesSortByApellido());
+			List<Estudiante> estudiantes=estudianteImplementation.getEstudiantesSortByApellido();
+			for (Estudiante estudiante1 : estudiantes) {
+				System.out.println(estudiante1.toString());
+			}
+			
 		
 		/**
 		 * 2) D
@@ -76,24 +82,38 @@ public class Main {
 		 * 2) E
 		 * recupera todos los estudiante en base a su genero
 		 */
-			System.out.println(estudianteImplementation.getEstudiantesByGenero("Male"));
+			estudiantes=estudianteImplementation.getEstudiantesByGenero("Male");
+			for (Estudiante estudiante2 : estudiantes) {
+				System.out.println(estudiante2.toString());
+			}
 		/**
 		 * 2) F
 		 * recupera las carreras con estudiantes inscriptos y ordenar por cantidad de inscriptos
 		 */
-			System.out.println(carreraImplementation.getCarrerasConEstudiantesSortByCantidad());
+			List<Carrera>carreras=carreraImplementation.getCarrerasConEstudiantesSortByCantidad();
+			for(Carrera carrera : carreras) {
+				System.out.println(carrera.toString());
+			}
 		/**
 		 * 2) G
 		 * recupera los estudiantes por una determinada carrera, filtrados por ciudad de residencia
 		 */
-			System.out.println(estudianteImplementation.getEstudiantesByCiudad(1, 2));
+			estudiantes=estudianteImplementation.getEstudiantesByCiudad(254,22);
+			for (Estudiante estudiante3 : estudiantes) {
+				System.out.println(estudiante3.toString());
+			}
 		/**
 		 * 3
 		 * Generar un reporte de las carreras, que para cada carrera incluya información de los
 		 *inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
 		 *los años de manera cronológica.
 		 */
-			System.out.println(reporteCarreras.toString());
+			
+			List<ReporteCarreras> reportesCarreras=carreraImplementation.getReporte();
+			for(ReporteCarreras reporte : reportesCarreras) {
+				System.out.println(reporte.toString());
+			}
+			
 			
 
 		/**

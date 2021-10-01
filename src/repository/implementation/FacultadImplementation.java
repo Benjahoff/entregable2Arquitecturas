@@ -1,5 +1,6 @@
 package repository.implementation;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,14 +20,18 @@ public class FacultadImplementation implements FacultadRepository {
 	private CarreraImplementation carrera;
 	private EstudianteImplementation estudiante;
 
-	public FacultadImplementation(EntityManager em) {
+	public FacultadImplementation(EntityManager em, CarreraImplementation carrera,
+			EstudianteImplementation estudiante) {
 		this.em = em;
+		this.estudiante=estudiante;
+		this.carrera=carrera;
+		
 	}
 
 	/**
 	 * Permite recuperar un estudiante por su nombre
 	 * 
-	 * @param id de la facultad 
+	 * @param id de la facultad
 	 * @return retorna un objeto estudiante
 	 */
 	@Override
@@ -42,7 +47,7 @@ public class FacultadImplementation implements FacultadRepository {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Permite recuperar un estudiante por su nombre
 	 * 
@@ -62,7 +67,7 @@ public class FacultadImplementation implements FacultadRepository {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Permite recuperar un estudiante por su nombre
 	 * 
@@ -76,7 +81,7 @@ public class FacultadImplementation implements FacultadRepository {
 		em.getTransaction().commit();
 		return facultad;
 	}
-	
+
 	/**
 	 * Permite recuperar un estudiante por su nombre
 	 * 
@@ -102,8 +107,9 @@ public class FacultadImplementation implements FacultadRepository {
 		em.getTransaction().begin();
 		Estudiante nroEstudiante = this.estudiante.getByDNI(dni);
 		Carrera idCarrera = this.carrera.getCarreraByName(nombreCarrera);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		if (idCarrera != null && nroEstudiante != null) {
-			SituacionAcademica tempAcademica = new SituacionAcademica(nroEstudiante, idCarrera, 0, false, null, null);
+			SituacionAcademica tempAcademica = new SituacionAcademica(nroEstudiante, idCarrera, 0, false, timestamp, null);
 			em.persist(tempAcademica);
 		}
 		em.getTransaction().commit();
