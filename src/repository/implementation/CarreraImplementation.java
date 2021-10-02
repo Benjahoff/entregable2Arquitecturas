@@ -18,7 +18,7 @@ public class CarreraImplementation implements CarreraRepository {
 	/**
 	 * Permite obtener las carreras apartir de su ID
 	 * 
-	 * @param id de la carrera
+	 * @param id es el id de la carrera
 	 * @return retorna una carera
 	 */
 	@Override
@@ -34,18 +34,16 @@ public class CarreraImplementation implements CarreraRepository {
 	}
 
 	/**
-	 * Permite obtener una carrera apartir de un nombre
+	 * Permite obtener una carrera a partir de su nombre
 	 * 
-	 * @param nombre de la carrera
+	 * @param name es el nombre de la carrera
 	 * @return retorna una carrera
 	 */
 	@Override
 	public Carrera getCarreraByName(String name) {
-
 		@SuppressWarnings("unchecked")
 		List<Carrera> idCarrera = em.createQuery("SELECT c FROM Carrera c WHERE c.nombreCarrera=:nombreCarrera")
 				.setParameter("nombreCarrera", name).getResultList();
-
 		if (!idCarrera.isEmpty()) {
 			return idCarrera.get(0);
 		}
@@ -55,7 +53,7 @@ public class CarreraImplementation implements CarreraRepository {
 	/**
 	 * Permite guardar una carrera
 	 * 
-	 * @param la carrera a guardar
+	 * @param carrera es la carrera a guardar
 	 * @return retorna la carrera guardada
 	 */
 	@Override
@@ -69,13 +67,12 @@ public class CarreraImplementation implements CarreraRepository {
 	/**
 	 * Permite borrar una carrera, pasando como parametro la misma
 	 * 
-	 * @param la carrera a borrar
+	 * @param carrera es la carrera a borrar
 	 */
 	@Override
 	public void deleteCarrera(Carrera carrera) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
+		int idCarrera = carrera.getIdCarrera();
+		em.createQuery("DELETE FROM Carrera c WHERE c.idCarrera=:idCarrera").setParameter("idCarrera", idCarrera);
 	}
 
 	/**
@@ -85,12 +82,10 @@ public class CarreraImplementation implements CarreraRepository {
 	 * @return retorna una lista de carreras
 	 */
 	public List<Carrera> getCarrerasConEstudiantesSortByCantidad() {
-
 		@SuppressWarnings("unchecked")
 		List<Carrera> retornedList = em.createQuery(
 				"SELECT c FROM Carrera c JOIN  c.estudiantes s GROUP BY c.idCarrera ORDER BY COUNT(s.estudiante)")
 				.getResultList();
-
 		if (!retornedList.isEmpty()) {
 			return retornedList;
 		}
@@ -105,13 +100,11 @@ public class CarreraImplementation implements CarreraRepository {
 	 *         para esta consulta
 	 */
 	public List<ReporteCarreras> getReporte() {
-
 		@SuppressWarnings("unchecked")
 		List<ReporteCarreras> retornoDTOCarreras = em.createQuery(
 				"SELECT new DTO.ReporteCarreras(c.idCarrera, c.nombreCarrera, YEAR(s.fechaInscripcion),sum(s.egresado+0), COUNT(s.estudiante)) "
 						+ "FROM Carrera c JOIN c.estudiantes s GROUP BY (c.idCarrera) ORDER BY YEAR(s.fechaInscripcion) ASC, c.nombreCarrera ASC ")
 				.getResultList();
-
 		if (!retornoDTOCarreras.isEmpty()) {
 			return retornoDTOCarreras;
 		}

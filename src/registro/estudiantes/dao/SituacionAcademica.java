@@ -1,6 +1,5 @@
 package registro.estudiantes.dao;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -10,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 
 @Entity
 public class SituacionAcademica {
@@ -105,6 +102,10 @@ public class SituacionAcademica {
 
 	public void setFechaEgreso(Timestamp fechaEgreso) {
 		this.fechaEgreso = fechaEgreso;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 }

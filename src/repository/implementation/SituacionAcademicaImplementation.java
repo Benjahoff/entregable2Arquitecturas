@@ -1,8 +1,8 @@
 package repository.implementation;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import java.util.List;
 
+import javax.persistence.EntityManager;
 import registro.estudiantes.dao.SituacionAcademica;
 import repository.SituacionAcademicaRepository;
 
@@ -15,39 +15,39 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 	}
 	
 	/**
-	 * Permite recuperar un estudiante por su nombre
+	 * Permite recuperar una situacion academica por su id
 	 * 
-	 * @param id de situacion academica
-	 * @return retorna un objeto estudiante
+	 * @param id es el id de la situacion academica
+	 * @return retorna un objeto situacionacademica
 	 */
 	@Override
 	public SituacionAcademica getSituacionAcademicaByID(int id) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
+		@SuppressWarnings("unchecked")
+		List<SituacionAcademica> SituacionAcademicaList = em
+				.createQuery("SELECT s FROM SituacionAcademica s WHERE s.id=:id")
+				.setParameter("id", id).getResultList();
+		if (!SituacionAcademicaList.isEmpty()) {
+			return SituacionAcademicaList.get(0);
+		}
 		return null;
 	}
 	
 	/**
-	 * Permite recuperar un estudiante por su nombre
+	 * Permite recuperar una situacion academica por su nombre
 	 * 
-	 * @param nombre de situacion academica
-	 * @return retorna un objeto estudiante
+	 * @param name es el nombre de situacion academica
+	 * @return retorna un objeto situacion academica
 	 */
 	@Override
 	public SituacionAcademica getSituacionAcademicaByName(String name) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
 		return null;
-
 	}
 	
 	/**
-	 * Permite recuperar un estudiante por su nombre
+	 * Permite guardar una situacion academica
 	 * 
-	 * @param situacion academica a guardar
-	 * @return retorna un objeto estudiante
+	 * @param situacionacademica es la situacion academica a guardar
+	 * @return retorna la situacion academica guardada
 	 */
 	@Override
 	public SituacionAcademica saveSituacionAcademica(SituacionAcademica situacionacademica) {
@@ -58,17 +58,14 @@ public class SituacionAcademicaImplementation implements SituacionAcademicaRepos
 	}
 	
 	/**
-	 * Permite recuperar un estudiante por su nombre
+	 * Permite borrar una situacion academica
 	 * 
-	 * @param situacion academica a borrar
-	 * @return retorna un objeto estudiante
+	 * @param situacionacademica es la situacion academica a borrar
 	 */
 	@Override
 	public void deleteSituacionAcademica(SituacionAcademica situacionacademica) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
-
+		int id = situacionacademica.getId();
+		em.createQuery("DELETE FROM SituacionAcademica s WHERE s.id=:id").setParameter("id", id);
 	}
 
 	public void closeConnection() {

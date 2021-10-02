@@ -1,5 +1,6 @@
 package repository.implementation;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,7 +9,6 @@ import javax.persistence.EntityManagerFactory;
 import registro.estudiantes.dao.Carrera;
 import registro.estudiantes.dao.Ciudad;
 import registro.estudiantes.dao.Estudiante;
-import registro.estudiantes.dao.Facultad;
 import registro.estudiantes.dao.SituacionAcademica;
 import repository.EstudianteRepository;
 
@@ -29,12 +29,10 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 */
 	@Override
 	public Estudiante getEstudianteByID(int nroEstudiante) {
-		em.getTransaction().begin();
 		@SuppressWarnings("unchecked")
 		List<Estudiante> nroEstudianteList = em
 				.createQuery("SELECT e FROM Estudiante e WHERE e.nroEstudiante=:nroEstudiante")
 				.setParameter("nroEstudiante", nroEstudiante).getResultList();
-		em.getTransaction().commit();
 		if (!nroEstudianteList.isEmpty()) {
 			return nroEstudianteList.get(0);
 		}
@@ -49,14 +47,16 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 */
 	@Override
 	public Estudiante getEstudianteByName(String name) {
-		em.getTransaction().begin();
-		Estudiante e = (Estudiante) em.createQuery("SELECT e FROM Estudiante e WHERE e.nombre=:nombre")
+		@SuppressWarnings("unchecked")
+		List<Estudiante> e = em.createQuery("SELECT e FROM Estudiante e WHERE e.nombre=:nombre")
 				.setParameter("nombre", name).getResultList();
-		em.getTransaction().commit();
-		return e;
+		if (!e.isEmpty()) {
+			return e.get(0);
+		}
+		return null;
 
 	}
-	
+
 	/**
 	 * Permite recuperar un estudiante por su nombre
 	 * 
@@ -71,11 +71,14 @@ public class EstudianteImplementation implements EstudianteRepository {
 		return estudiante;
 	}
 
+	/**
+	 * Permite eliminar un estudiante 
+	 */
 	@Override
 	public void deleteEstudiante(Estudiante estudiante) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
+		int nroEstudiante = estudiante.getNroEstudiante();
+		em.createQuery("DELETE FROM Estudiante e WHERE e.nroEstudiante=:nroEstudiante").setParameter("nroEstudiante",
+				nroEstudiante);
 	}
 
 	/**
@@ -86,11 +89,9 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * @return un numero de estudiante si esta registrado o null si no lo esta
 	 */
 	public Estudiante getByDNI(Long dni) {
-		em.getTransaction().begin();
 		@SuppressWarnings("unchecked")
 		List<Estudiante> nroEstudiante = em.createQuery("SELECT e FROM Estudiante e WHERE e.dni=:dni")
 				.setParameter("dni", dni).getResultList();
-		em.getTransaction().commit();
 		if (!nroEstudiante.isEmpty()) {
 			return nroEstudiante.get(0);
 		}
@@ -106,12 +107,10 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * @return retorna una lista de estudiantes
 	 */
 	public List<Estudiante> getEstudiantesByCiudad(int idCiudad, int idCarrera) {
-		em.getTransaction().begin();
 		@SuppressWarnings("unchecked")
 		List<Estudiante> retornedList = em.createQuery(
 				"SELECT e FROM Estudiante e JOIN e.carreras s WHERE s.carrera.idCarrera =: idCarrera AND  e.ciudad.idCiudad =: idCiudad")
 				.setParameter("idCarrera", idCarrera).setParameter("idCiudad", idCiudad).getResultList();
-		em.getTransaction().commit();
 		if (!retornedList.isEmpty()) {
 			return retornedList;
 		}
@@ -128,7 +127,7 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * @param genero               el genero del estudiante, puede ser cualquier
 	 *                             cosa ya que es String
 	 * @param Ciudad               el nombre de la ciudad
-	 * @param CiudadImplementation recibe una implementacion de ciudad
+	 * @param CiudadImplementation recibe una implementacion de ciudad para consultas auxiliares
 	 */
 	public void darAltaEstudiante(String nombre, String apellido, Long dni, String genero, String Ciudad,
 			CiudadImplementation city) {
@@ -144,13 +143,16 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * 
 	 * @param nroLibreta    es el numero de estudiante
 	 * @param nombreCarrera el nombre de la carrera
+	 * @param career una implementacion de carrera para consultas auxiliares
+	 * @param situ una implementacion de situacion academica para consultas auxiliares
 	 */
-	public void matricularEstudiante(int nroLibreta, String nombreCarrera, CarreraImplementation career) {
+	public void matricularEstudiante(int nroLibreta, String nombreCarrera, CarreraImplementation career,
+			SituacionAcademicaImplementation situ) {
 		Estudiante nroEstudiante = this.getEstudianteByID(nroLibreta);
 		Carrera idCarrera = career.getCarreraByName(nombreCarrera);
 		if (idCarrera != null && nroEstudiante != null) {
 			SituacionAcademica tempAcademica = new SituacionAcademica(nroEstudiante, idCarrera, 0, false, null, null);
-			em.persist(tempAcademica);
+			situ.saveSituacionAcademica(tempAcademica);
 		}
 
 	}
@@ -162,6 +164,7 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * @param dni el dni
 	 * @return un numero de estudiante si esta registrado o null si no lo esta
 	 */
+	@SuppressWarnings("unused")
 	private Estudiante getNroEstudiante(Long dni) {
 		@SuppressWarnings("unchecked")
 		List<Estudiante> nroEstudiante = em.createQuery("SELECT e FROM Estudiante e WHERE e.dni=:dni")
@@ -178,15 +181,21 @@ public class EstudianteImplementation implements EstudianteRepository {
 	 * 
 	 * @param dni           el dni del estudiante
 	 * @param nombreCarrera el nombre de la carrera
+	 * @param career una implementacion de carrera para consultas auxiliares
+	 * @param situ una implementacion de situacion academica para consultas auxiliares
 	 */
-	public void matricularEstudiante(Long dni, String nombreCarrera, CarreraImplementation career) {
-		Estudiante nroEstudiante = this.getNroEstudiante(dni);
+	public void matricularEstudiante(Long dni, String nombreCarrera, CarreraImplementation career,
+			SituacionAcademicaImplementation situ) {
+		em.getTransaction().begin();
+		Estudiante nroEstudiante = this.getByDNI(dni);
 		Carrera idCarrera = career.getCarreraByName(nombreCarrera);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		if (idCarrera != null && nroEstudiante != null) {
-			SituacionAcademica tempAcademica = new SituacionAcademica(nroEstudiante, idCarrera, 0, false, null, null);
-			em.persist(tempAcademica);
+			SituacionAcademica tempAcademica = new SituacionAcademica(nroEstudiante, idCarrera, 0, false, timestamp,
+					null);
+			situ.saveSituacionAcademica(tempAcademica);
 		}
-
+		em.getTransaction().commit();
 	}
 
 	/**

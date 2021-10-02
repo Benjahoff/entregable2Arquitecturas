@@ -15,46 +15,45 @@ public class CiudadImplementation implements CiudadRepository {
 	public CiudadImplementation(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	/**
-	 * Permite obtener una ciudad apartir de su id	 
-	 *  @param id de la ciudad 
+	 * Permite obtener una ciudad apartir de su id
+	 * 
+	 * @param id de la ciudad
 	 * @return retorna una ciudad
 	 */
 	@Override
 	public Ciudad getCiudadByID(int id) {
-		em.getTransaction().begin();
 		@SuppressWarnings("unchecked")
 		List<Ciudad> c = em.createQuery("SELECT c FROM Ciudad c WHERE c.idCiudad =: idCiudad")
 				.setParameter("idCiudad", id).getResultList();
-		em.getTransaction().commit();
 		if (!c.isEmpty()) {
 			return (Ciudad) c.get(0);
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Permite obtener una ciudad apartir de su nombre	 
-	 *  @param nombre de la ciudad
+	 * Permite obtener una ciudad apartir de su nombre
+	 * 
+	 * @param nombre de la ciudad
 	 * @return retorna una ciudad
 	 */
 	@Override
 	public Ciudad getCiudadByName(String name) {
-		em.getTransaction().begin();
 		@SuppressWarnings("unchecked")
 		List<Ciudad> c = em.createQuery("SELECT c FROM Ciudad c WHERE c.nombreCiudad=:nombreCiudad")
 				.setParameter("nombreCiudad", name).getResultList();
-		em.getTransaction().commit();
 		if (!c.isEmpty()) {
 			return (Ciudad) c.get(0);
 		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Permite guardar una ciudad
+	 * 
 	 * @param la ciudad a guardar
 	 * @return retorna la ciudad guardada
 	 */
@@ -65,17 +64,16 @@ public class CiudadImplementation implements CiudadRepository {
 		em.getTransaction().commit();
 		return ciudad;
 	}
-	
+
 	/**
 	 * Permite borrar una ciudad, la cual se pasa por parametro
-	 *  @param la ciudad a borrar
+	 * 
+	 * @param la ciudad a borrar
 	 */
 	@Override
 	public void deleteCiudad(Ciudad ciudad) {
-		em.getTransaction().begin();
-		// TODO Auto-generated method stub
-		em.getTransaction().commit();
-
+		int idCiudad = ciudad.getIdCiudad();
+		em.createQuery("DELETE FROM Ciudad c WHERE c.idCiudad=:idCiudad").setParameter("idCiudad", idCiudad);
 	}
 
 	public void closeConnection() {
